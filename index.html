@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 浮动设置侧边栏按钮 -->
+    <button class="sidebar-toggle-btn" id="sidebarToggle" title="Settings & Language">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <aside class="control-sidebar" id="controlSidebar">
+        <div class="sidebar-header">
+            <h3 id="txt-sidebar-title">Settings & Language</h3>
+            <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
+        </div>
+        <div class="sidebar-section">
+            <label id="txt-lang-label"><i class="fas fa-globe"></i> Language</label>
+            <div class="btn-group">
+                <button class="setting-btn active" id="btn-lang-en" onclick="setLanguage('en')">English</button>
+                <button class="setting-btn" id="btn-lang-zh" onclick="setLanguage('zh')">繁體中文</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 顶部标题与 16:9 照片横栏 -->
+    <header class="glass-header" id="mainHeader">
+        <h1 id="txt-main-title">The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing</h1>
+        <p id="txt-sub-title">Linking Downtown Landmarks, Vanished Architecture, and the Living History of Pride</p>
+        
+        <div class="header-photo-bar" id="headerPhotoBar">
+            <div class="header-photo-item"><img src="images/header-1.png" alt="Header Landmark 1"></div>
+            <div class="header-photo-item"><img src="images/header-2.png" alt="Header Landmark 2"></div>
+            <div class="header-photo-item"><img src="images/header-3.png" alt="Header Landmark 3"></div>
+            <div class="header-photo-item"><img src="images/header-4.png" alt="Header Landmark 4"></div>
+            <div class="header-photo-item"><img src="images/header-5.png" alt="Header Landmark 5"></div>
+        </div>
+
+        <nav class="category-nav">
+            <a href="#interactive-map-section" class="nav-item active" id="nav-timeline">
+                <i class="fas fa-map-marked-alt"></i> <span id="txt-nav-timeline">Interactive Map & Timeline</span>
+            </a>
+            <a href="#video-section" class="nav-item" id="nav-video">
+                <i class="fas fa-play-circle"></i> <span id="txt-nav-video">2026 Parade & Media</span>
+            </a>
+            <a href="#editorial-section" class="nav-item" id="nav-stories">
+                <i class="fas fa-book-open"></i> <span id="txt-nav-stories">Featured Stories</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- 区块 1: 互动地图与时间线 -->
+    <section id="interactive-map-section" class="main-container">
+        <div class="ambient-aurora"></div>
+
+        <div class="timeline-panel" id="timelinePanel">
+            <div class="timewarp-slider-box">
+                <div class="warp-label">
+                    <span id="txt-warp-label"><i class="fas fa-hourglass-half"></i> Year Filter:</span>
+                    <span id="warpYearDisplay">2026 (Present)</span>
+                </div>
+                <input type="range" id="timeWarpRange" min="1870" max="2026" step="1" value="2026" oninput="handleTimeWarp(this.value)">
+            </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" id="filter-all" onclick="filterEra('all')">All Eras</button>
+                <button class="filter-btn highlight-filter" id="filter-dtla" onclick="filterEra('dtla')">🏛️ LA Downtown Landmarks</button>
+                <button class="filter-btn" id="filter-pre1950" onclick="filterEra('pre1950')">Pre-1950s</button>
+                <button class="filter-btn" id="filter-1950s" onclick="filterEra('1950s')">1950s</button>
+                <button class="filter-btn" id="filter-1960s-70s" onclick="filterEra('1960s-70s')">1960s-70s</button>
+                <button class="filter-btn" id="filter-1980s-present" onclick="filterEra('1980s-present')">1980s-Present</button>
+            </div>
+
+            <div class="timeline-container" id="timelineList"></div>
+        </div>
+
+        <div class="map-panel">
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- 区块 2: 2026 LA Pride 视频与照片墙 -->
+    <section id="video-section" class="media-section">
+        <div class="media-header">
+            <h2><i class="fas fa-camera-retro"></i> <span id="txt-media-title">2026 LA Pride Parade: Live Video & Photo Wall</span></h2>
+            <p id="txt-media-subtitle">Live Coverage, On-site Video, and Photo Gallery from the 56th Annual Parade in Hollywood</p>
+        </div>
+        <div class="media-grid">
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/k3_JB4v4chM" 
+                    title="2026 LA Pride Parade Live Footage" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="photo-wall-container">
+                <div class="photo-grid">
+                    <div class="photo-card"><img src="images/gallery-1.png" alt="Parade Photo 1"></div>
+                    <div class="photo-card"><img src="images/gallery-2.png" alt="Parade Photo 2"></div>
+                    <div class="photo-card"><img src="images/gallery-3.png" alt="Parade Photo 3"></div>
+                    <div class="photo-card"><img src="images/gallery-4.png" alt="Parade Photo 4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 区块 3: 专题报道 -->
+    <section id="editorial-section" class="editorial-flow">
+        
+        <!-- 报道 1: Pickle's Story Time -->
+        <article class="editorial-card">
+            <header class="ed-header">
+                <h2 class="ed-title">Pickle's Story Time: How West Hollywood's Drag Laureate Brings Education and Drag Together</h2>
+                <div class="ed-byline">Reported & Photographed by Clayah Wei / Hong Kong Baptist University</div>
+            </header>
+
+            <figure class="ed-figure">
+                <img src="images/story-pickle-1.png" class="photo-placeholder" alt="Children sing along with Pickle">
+                <figcaption>Children sing along with Pickle during Drag Story Hour at the Academy Museum of Motion Pictures on June 13, 2026. Photo by Clayah Wei.</figcaption>
+            </figure>
+
+            <div class="ed-body">
+                <p class="drop-cap">About a dozen children gathered around Pickle on the floor of the Academy Museum Store in Los Angeles on June 13, 2026. Most sat beside their mothers as she held a copy of Lil Miss Hot Mess’s The Hips on the Drag Queen Go Swish, Swish, Swish.</p>
+                <p>She began with an altered version of "The Wheels on the Bus." <span class="highlight-text">"The shoulders on the drag queen go shimmy, shimmy, shimmy,"</span> Pickle sang, shrugging her shoulders. Several children stood and copied her, shouting the final "shimmy" back at her.</p>
+                <p>Two days later, on June 15, 2026, the West Hollywood City Council honored Pickle and passed the crown to her successor, Odious Ari, the city's first drag king. City officials said Pickle had not only represented drag in West Hollywood, but had defined the role during her three years in it. The June 13 session was among the last she led as the city's inaugural Drag Laureate.</p>
+
+                <h3 class="ed-subtitle">Who Is Pickle, and What Is Drag Story Hour</h3>
+                <p>Pickle, whose legal name is Joseph Marcellus Faragher, is a drag queen and the Los Angeles organizer of Drag Story Hour. She uses she/her pronouns and is also a middle school teacher, though she asked that the school's name not be published to protect student privacy. She leads Drag Story Hour in different public spaces across Los Angeles nearly every week.</p>
+                <p>Drag Story Hour was founded in San Francisco in 2015 by writer Michelle Tea and RADAR Productions, with organizers Julián Delgado Lopera and Virgie Tovar playing leading roles in its early development. The program uses drag as a storytelling medium to introduce audiences to LGBTQ communities and to encourage self-acceptance and understanding of gender expression and identity through LGBTQIA+ stories.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/story-pickle-2.png" class="photo-placeholder" alt="Pickle reads It's Okay to Be Different">
+                    <figcaption>Pickle reads It's Okay to Be Different, Swish by Todd Parr during Drag Story Hour at the Academy Museum of Motion Pictures in Los Angeles on June 13, 2026. Photo by Clayah Wei.</figcaption>
+                </figure>
+
+                <p>Pickle began doing drag as a student at Hamilton High, when she appeared in a school production of A Funny Thing Happened on the Way to the Forum and played a character who gets into drag. In an interview with LAist, she described the moment she put on the wig, lipstick and dress: <span class="highlight-text">"Something was kind of awakened where I was like, 'Oh, this works.'"</span> She continued exploring drag while at Sarah Lawrence College in New York.</p>
+
+                <h3 class="ed-subtitle">How Pickle Builds a Story Hour</h3>
+                <p>Pickle said the sessions are aimed mostly at young children and teenagers, but everyone is welcome. When selecting books, she looks for work by LGBTQ creators or stories that introduce LGBTQ experiences in an accessible way.</p>
+                <p>One example is The Hips on the Drag Queen Go Swish, Swish, Swish by Lil Miss Hot Mess, a drag queen, author, storyteller and board member of Drag Story Hour. Another is Feminist Baby by Loryn Brantz, which introduces ideas of equality and autonomy in a playful way. She also uses books like This Day in June by Gayle E. Pitman, which depicts a Pride Parade.</p>
+                <p>After the reading, Pickle builds in movement and interaction. She leads songs, dances and small games that connect back to the book, so children can respond physically to what they just heard.</p>
+                <p>In an earlier Beverly Press interview, Pickle described the difficulty of explaining her role. <span class="highlight-text">"I just never came up with a good enough answer,"</span> she said. <span class="highlight-text">"I get to work with children, and sometimes I feel very silly, because it's like, 'Well, what is this? I'm the only one, really.' But I always tell my friends and people ... In 60 years, I'll be so proud to have been this person."</span></p>
+
+                <h3 class="ed-subtitle">The Drag Laureate Role</h3>
+                <p>A laureate is typically someone honored for achievement in the arts or sciences. Pickle is the inaugural Drag Laureate of the City of West Hollywood, a paid civic role created in 2023. She was selected in June 2023 through an application process run by the city's Arts and Cultural Affairs Commission. Her original term was set to run from July 1, 2023, to July 1, 2025, but the city extended it for a third year, through July 1, 2026. The city provides a $12,500 annual award and a $2,500 annual stipend for city drag events, totaling $15,000 per year.</p>
+                <blockquote class="ed-quote">“Pickle was selected as the drag laureate to serve a two-year term, but we couldn't let Pickle go, so we extended it to three,” Mayor John Heilman said.</blockquote>
+                <p>The position's duties include raising the presence and appreciation of drag culture and art in West Hollywood, fostering partnerships with local businesses and community organizations, celebrating the city's spirit, and inspiring emerging drag artists through drag history. West Hollywood Councilmember Lauren Meister, who helped draft the original Drag Laureate proposal, told the Los Angeles Times: <span class="highlight-text">"The LGBTQ community has such a history with the city. We wanted the drag laureate to be an ambassador to West Hollywood businesses but also promote art and culture. We wanted to do something that could bring some levity back to our city and keep things edgy."</span></p>
+                <p>During her term, Pickle appeared at WeHo Pride, the West Hollywood Halloween Carnaval and National Night Out. She created quarterly drag roundtables at Plummer Park Community Center to connect drag performers of all backgrounds with resources, organized free sewing workshops and drag story hours, participated in Harvey Milk Day events, hosted a drag pageant honoring the late LGBTQ rights activist José Julio Sarria, and hosted a celebration of West Hollywood's 39th anniversary.</p>
+                <p>On Pride Parade day itself, June 14, 2026, Pickle appeared as a guest performer at Pride Night at the Aquarium of the Pacific in Long Beach, an event organized with the LGBTQ Center Long Beach.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/story-pickle-3.png" class="photo-placeholder" alt="Pickle shares with the audience onstage">
+                    <figcaption>Pickle shares with the audience onstage. Credit: Josh Barber / Aquarium of the Pacific</figcaption>
+                </figure>
+
+                <h3 class="ed-subtitle">Not Always Welcomed</h3>
+                <p>Drag Story Hour has not always been welcomed. On October 25, 2023, Pickle arrived at the San Fernando Public Library for a scheduled Drag Story Hour and found the entrance blocked by protesters and barricades. She told ABC7 that she hoped someone would be held accountable and that people would understand the importance of Drag Story Hour.</p>
+                <blockquote class="ed-quote highlight-quote">“It is about self-expression,” said Pickle. “These programs are completely G-rated, and if they don't want to bring their children for whatever reason, that is their right. It is not their right to determine whether or not public programs are offered through a public library.”</blockquote>
+
+                <figure class="ed-figure">
+                    <img src="images/story-pickle-4.png" class="photo-placeholder" alt="Pickle speaks during an interview">
+                    <figcaption>Pickle speaks during an interview. Photo by Clayah Wei.</figcaption>
+                </figure>
+
+                <p>At the Academy Museum of Motion Pictures, a little girl looked up at Pickle, tall and glamorous, and turned to her mother sitting behind her.</p>
+                <p>"Is she a queen?" she whispered.</p>
+                <p>Pickle heard this and bent down.</p>
+                <p>"Yes," she said. "My dear little princess!"</p>
+            </div>
+        </article>
+
+        <hr class="ed-divider">
+
+        <!-- 报道 2: The Invisible Gay City -->
+        <article class="editorial-card">
+            <header class="ed-header">
+                <h2 class="ed-title">The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing</h2>
+            </header>
+
+            <figure class="ed-figure">
+                <img src="images/tour-hill-empty.png" class="photo-placeholder" alt="The present-day site of 232 S. Hill St.">
+                <figcaption>The present-day site of 232 S. Hill St. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+            </figure>
+
+            <div class="ed-body">
+                <p class="drop-cap">"You can see it now," Eric A. Curry said, pointing across the street. "That building no longer exists."</p>
+                <p>Following his gesture, the present-day site of 232 S. Hill St. in Downtown Los Angeles holds no monument or historic building, only an empty parking lot.</p>
+                <p>This history is disappearing fast: buildings are torn down, records go missing, and the people who lived it are dying. Once they are gone, there may be no one left to say what happened here — which is why it needs to be told now.</p>
+                <p>Eric A. Curry, a historical tour guide with California Queer Adventures, led the tour that day, joined only by the reporters and his brother.</p>
+                <p>Eric said LGBTQ activists he had interviewed warned him: "Queer history here in the United States is being erased at a very, very quick pace."</p>
+
+                <h3 class="ed-subtitle">420 N Main St. | Merced Theatre and hidden social life</h3>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-merced-old.png" class="photo-placeholder" alt="Merced Theatre in 1880">
+                    <figcaption>Merced Theatre in 1880, Los Angeles Public Library</figcaption>
+                </figure>
+
+                <p>The tour's first stop was the Merced Theatre at 420 N Main St. The Los Angeles Conservancy says the building was constructed in 1870, opened on January 30, 1871, and closed in 1877; it also notes that, at the turn of the twentieth century, the theater hosted masked balls that offered LGBTQ people a relatively safe gathering place, and that beginning in 1897 it was used as a lodging house for queer men.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-merced-display.png" class="photo-placeholder" alt="An informational display introducing the history of the Merced Theatre">
+                    <figcaption>An informational display introducing the history of the Merced Theatre. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>According to Chris Cruse's Queer Map project, the theater was later converted into a covert gay lodging house by "outrageous queen" Frederick Purssord.</p>
+                <p>Standing before the theater's closed doors, Eric explained why those private spaces mattered.</p>
+                <blockquote class="ed-quote">“I really can't emphasize enough how important these private events were,” he said.</blockquote>
+                <p>Entry to these gatherings often involved some degree of screening, making them among the few private social spaces where white-collar professionals, businessmen, and others facing career pressures could avoid social scrutiny.</p>
+                <p>At this point, Eric brought up Stonewall.</p>
+                <p>"Stonewall happened in New York in 1969. Pride came a year later. And then — everyone lived happily ever after."</p>
+                <p>He then turned serious.</p>
+                <p>"Obviously, that's not the case. Stonewall is important, but Stonewall was not the moment when history suddenly began. If all of these smaller events had not already been happening across the country, would Stonewall have had the same impact?"</p>
+                <p>Merced Theatre is still there, but the history presented on site does not show its intersection with LGBTQ history.</p>
+
+                <h3 class="ed-subtitle">Pershing Square | Before the apps, the city was the network</h3>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-pershing-old.png" class="photo-placeholder" alt="Biltmore Hotel overlooking Pershing Square in 1953">
+                    <figcaption>A view of the Biltmore Hotel overlooking Pershing Square in Los Angeles on Feb. 2, 1953. | Los Angeles Examiner Photographs Collection, 1920-1961 / USC Libraries Special Collections</figcaption>
+                </figure>
+
+                <p>Those social networks later extended around Pershing Square into an urban circuit known as "The Run," connecting the Biltmore Hotel, the Los Angeles Central Library, and nearby public and commercial spaces. Before mobile communication became widespread, the community relied on the regularity of place and time in these spaces to meet one another.</p>
+                <p>Eric described The Run as "kind of like RuPaul's Drag Race, gay Tinder, and cruising all at once," but he also stressed the vulnerability built into that system.</p>
+                <blockquote class="ed-quote">“You didn't even necessarily have to be LGBTQ.”</blockquote>
+                <p>Police could use sting operations to accuse anyone of soliciting sex or attempting to seek sexual contact in public and arrest them.</p>
+                <p>Pershing Square itself later changed physically. In 1951, the park underwent major excavation and redesign for the construction of an underground parking garage, altering the original structure of the space.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-pershing-eric.png" class="photo-placeholder" alt="Eric A. Curry speaks across from Pershing Square">
+                    <figcaption>Eric A. Curry speaks across from Pershing Square in Downtown Los Angeles. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-pershing-tree.png" class="photo-placeholder" alt="Eric A. Curry speaks under trees">
+                    <figcaption>Eric A. Curry speaks under trees near Pershing Square. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>The city did not need to demolish every building to change queer geography. Sometimes redesigning public space was enough to make earlier uses harder to recover.</p>
+
+                <h3 class="ed-subtitle">Civic Center | Nancy Valverde and the law</h3>
+
+                <p>At the Civic Center, the history shifted from social space to law and policing. In 1979, California Governor Jerry Brown appointed Stephen M. Lachs to the Los Angeles Superior Court. He later became known as the first openly gay judge appointed in the United States.</p>
+                <p>Not long before, LGBTQ people entering a courtroom were far more likely to be there because they had been arrested by police. Nancy Valverde, a Chicana barber, was among those repeatedly targeted. Because she often wore masculine clothing, she became a target of the Los Angeles Police Department under anti-masquerading enforcement.</p>
+                <p>Eric described how police would arrest her.</p>
+                <p>"Sometimes she was taken in on Friday and not released until Monday."</p>
+                <p>She later even had to explain to barber school that she was not late because she had spent the weekend having too much fun, but because she had just gotten out of jail.</p>
+                <p>According to The Guardian, Valverde told the historian Lillian Faderman that she went to the county law library in 1959 and found that the courts had decided in 1950 that a woman was not breaking the law simply for wearing masculine clothing. Valverde later recalled that she was able to use this legal precedent to stop the LAPD from arresting her, though officers continued to harass her.</p>
+                <p>Valverde later described that refusal to change in direct terms.</p>
+                <blockquote class="ed-quote">“They wanted me to be someone else. I could not be someone else. This is me.”</blockquote>
+                <p>In June 2023, the intersection of Main and 2nd Streets was renamed Cooper Do-nuts / Nancy Valverde Square. According to ABC7, the dedication also came with a public apology from the Los Angeles Police Department. Commander Ruby Flores read a statement at the ceremony: "...this mistreatment and harassment of our citizens was wrong. It should have never happened." LAPD Police Chief Michel Moore also offered Valverde a personal apology by mobile phone.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-cooper-square.png" class="photo-placeholder" alt="Cooper Do-nuts/Nancy Valverde Square">
+                    <figcaption>Cooper Do-nuts/Nancy Valverde Square in downtown Los Angeles. Photo by Jerish/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>Valverde died in 2024 at the age of 92. A person who had once been repeatedly arrested by the city because of what she wore eventually had her name written into the city's geography.</p>
+
+                <h3 class="ed-subtitle">506 S Grand Ave. | The Biltmore Hotel and collective resistance</h3>
+
+                <figure class="ed-figure">
+                    <div class="dual-photo-container">
+                        <img src="images/tour-biltmore-then.png" class="photo-placeholder dual-photo" alt="Archival image from LAPL">
+                        <img src="images/tour-biltmore-now.png" class="photo-placeholder dual-photo" alt="Present-day photo by Jerish LIU">
+                    </div>
+                    <figcaption>Then and now: The Biltmore Hotel in Downtown Los Angeles. Archival image from the Los Angeles Public Library; present-day photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>Another documented act of resistance took place at the Biltmore Hotel at 506 S Grand Ave. In 1970, the hotel was hosting a professional conference on behavior modification, which planned to screen a film about using "electroshock aversion therapy" to change homosexual orientation. Members of the Los Angeles Gay Liberation Front, including activist and librarian Carolyn Weathers, infiltrated the conference.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-biltmore-eric.png" class="photo-placeholder" alt="Eric A. Curry stands across from the Biltmore Hotel">
+                    <figcaption>Eric A. Curry stands across from the present-day Biltmore Hotel in Downtown Los Angeles. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>Eric emphasized how they entered.</p>
+                <p>"They didn't start out shouting. They didn't rush in and immediately create chaos. They were quiet. They spread out and sat in different places. What they needed to do was wait."</p>
+                <p>Only when the film was about to begin did they act collectively, interrupting the screening and then engaging the psychiatrists in dialogue. For the first time, a group of people who had long been observed, studied, classified, diagnosed, and treated by professional institutions forced those professionals to actually listen to them.</p>
+                <p>Three years later, in 1973, the American Psychiatric Association formally removed homosexuality from its manual of mental disorders.</p>
+                <p>The Biltmore still stands, but there is no sign on site telling people that this history happened here.</p>
+
+                <h3 class="ed-subtitle">200 N Spring St. | City Hall and the nonlinearity of rights</h3>
+                
+                <p>Standing before Los Angeles City Hall at 200 N Spring St., Eric told the tour group:</p>
+                <blockquote class="ed-quote">“History isn't: the past was conservative, and then everything slowly became freer. It moves forward, and it moves backward.”</blockquote>
+                <p>California's ballot history supports that point. In 1978, voters rejected Proposition 6, also known as the Briggs Initiative, which sought to allow public schools to dismiss teachers and other employees because of conduct or public advocacy related to homosexuality. Yet thirty years later, in 2008, the same state passed Proposition 8, writing a restriction on same-sex marriage into the state constitution and drawing crowds of protesters to Los Angeles City Hall.</p>
+
+                <figure class="ed-figure">
+                    <img src="images/tour-cityhall-eric.png" class="photo-placeholder" alt="Eric A. Curry speaks outside City Hall">
+                    <figcaption>Eric A. Curry speaks with Clayah Wei outside Los Angeles City Hall. Photo by Jerish LIU/Hong Kong Baptist University.</figcaption>
+                </figure>
+
+                <p>Eric emphasized the reversal more than once.</p>
+                <p>"The same state."</p>
+                <p>The legal landscape shifted again five years later. At a 2014 symposium at Columbia Law School, Edith Windsor recalled that members of her legal team had urged her to stop after the lower-court ruling.</p>
+                <p>"They said, 'You can quit now,'" she said. "They told me the lower court ruling would stand and DOMA would be unconstitutional 'as applied to me.'"</p>
+                <p>Windsor refused.</p>
+                <p>"And I said, 'We're going to the Supreme Court,'" she said. "There was no way I could say to anyone else 'I won, and you lost' and call that a win."</p>
+                <p>In 2013, the Supreme Court's ruling in United States v. Windsor struck down the federal provision of DOMA that restricted recognition of marriage to one man and one woman.</p>
+                <p>Two days after the ruling, on June 28, 2013, Proposition 8 plaintiffs Paul Katami and Jeff Zarrillo were married inside Los Angeles City Hall, with outgoing Los Angeles Mayor Antonio Villaraigosa officiating.</p>
+                <p>The same building that had stood outside a protest in 2008 became a place of recognition in 2013.</p>
+
+                <h3 class="ed-subtitle">Ending | What remains, and what does not</h3>
+                
+                <p>The tour concluded back at 232 S. Hill St. — the same empty lot where it had started.</p>
+                <p>This was once the Downtown Los Angeles office of ONE, Inc., the predecessor of One Institute, now the oldest active LGBTQ+ organization in the United States. Its official timeline shows that the organization was founded in November 1952, ONE Magazine debuted in January 1953, and it opened an office at 232 South Hill Street in November 1953. Los Angeles postal authorities seized the August 1953 and October 1954 issues of the magazine; after four years of litigation, the Supreme Court ruled on January 13, 1958, that the magazine did not violate obscenity laws.</p>
+                <p>When Eric first designed this walking tour, he tried to locate the original building.</p>
+                <p>"I remember thinking, 'Where is that building?'"</p>
+                <p>Only later did he realize it was no longer there. There is still no monument at the site, still no historic building, still no marker explaining why the address matters.</p>
+                <p>"Please share this history," Curry told the reporter and his brother. "I don't know how many people will still get the chance to learn about this history. I only know that every additional person I can tell means one more person will be able to see the buildings and histories that have disappeared."</p>
+                <p>Behind him, the lot sat empty, just as it had when we arrived. But after listening to Curry, it no longer looked like nothing. It was the site of ONE, Inc. — an office, a magazine, a legal battle, a Supreme Court ruling.</p>
+                <blockquote class="ed-quote highlight-quote">“The building was gone. The history was not.”</blockquote>
+            </div>
+        </article>
+
+        <!-- Credit Section (New) -->
+        <div class="site-credit" id="siteCredit">
+            <p><strong>Article and Website by:</strong> WEI Yanfangru (Clayah) / Hong Kong Baptist University</p>
+            <p><strong>Pictures:</strong> Internet Sources, Jo, Jerish LIU, Francis KO</p>
+        </div>
+
+    </section>
+
+    <!-- Leaflet JS & 自定义脚本 -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
