@@ -284,7 +284,7 @@ function setLanguage(lang) {
     document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-lang-zh').classList.toggle('active', lang === 'zh');
     
-    // 更新年份滑块标注
+    // 更新年份滑塊標注
     const presentSuffix = lang === 'zh' ? ' (現在)' : ' (Present)';
     document.getElementById('warpYearDisplay').textContent = selectedYear + (selectedYear === 2026 ? presentSuffix : '');
 
@@ -310,6 +310,7 @@ function setLanguage(lang) {
         document.getElementById('filter-1980s-present').textContent = "1980s – 至今";
         document.getElementById('siteCredit').innerHTML = `
             <p><strong>文章與網頁製作：</strong> WEI Yanfangru (Clayah) / Hong Kong Baptist University</p>
+            <p><strong>指導老師：</strong> LUQIU, Luwei Rose</p>
             <p><strong>圖片來源：</strong> 網絡、Jo、Jerish LIU、Francis KO</p>
         `;
     } else {
@@ -334,6 +335,7 @@ function setLanguage(lang) {
         document.getElementById('filter-1980s-present').textContent = "1980s-Present";
         document.getElementById('siteCredit').innerHTML = `
             <p><strong>Article and Website by:</strong> WEI Yanfangru (Clayah) / Hong Kong Baptist University</p>
+            <p><strong>Reporting Advisor:</strong> LUQIU, Luwei Rose</p>
             <p><strong>Pictures:</strong> Internet Sources, Jo, Jerish LIU, Francis KO</p>
         `;
     }
@@ -482,5 +484,5 @@ function filterEra(era) {
     }
 }
 
-// 默认初始化为全英文模式
+// 默認初始化為全英文模式
 setLanguage('en');
