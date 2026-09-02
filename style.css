@@ -70,40 +70,33 @@ body {
 }
 .setting-btn.active, .setting-btn:hover { background: var(--pride-blue); color: #fff; border-color: var(--pride-blue); }
 
+/* 彻底解决滚动弹闪：改为 position: fixed */
 .glass-header {
     background: linear-gradient(90deg, 
         rgba(224, 122, 122, 0.85) 0%, rgba(229, 152, 94, 0.85) 20%, 
         rgba(220, 194, 101, 0.85) 40%, rgba(118, 176, 138, 0.85) 60%, 
         rgba(112, 151, 226, 0.85) 80%, rgba(166, 122, 216, 0.85) 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.9);
-    padding: 22px 80px 18px 30px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-    position: sticky; top: 0; z-index: 2000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: padding 0.4s ease;
+    padding: 20px 80px 16px 30px; 
+    backdrop-filter: blur(25px); 
+    -webkit-backdrop-filter: blur(25px);
+    position: fixed; 
+    top: 0; left: 0; right: 0; width: 100%;
+    z-index: 2000; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+    transition: padding 0.35s ease;
 }
-.glass-header h1 { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #ffffff; letter-spacing: 0.5px; margin-bottom: 6px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.glass-header p { color: rgba(255, 255, 255, 0.95); font-size: 0.9rem; font-weight: 400; margin-bottom: 16px; }
-
-/* 導語 Lead 樣式 */
-.header-lead {
-    color: rgba(255, 255, 255, 0.96) !important;
-    font-size: 0.92rem !important;
-    line-height: 1.6;
-    margin-bottom: 18px !important;
-    background: rgba(0, 0, 0, 0.12);
-    padding: 12px 18px;
-    border-radius: 8px;
-    border-left: 4px solid #ffffff;
-    backdrop-filter: blur(8px);
-}
+.glass-header h1 { font-family: 'Cinzel', serif; font-size: 1.45rem; color: #ffffff; letter-spacing: 0.5px; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.glass-header p { color: rgba(255, 255, 255, 0.95); font-size: 0.88rem; font-weight: 400; margin-bottom: 14px; }
 
 .header-photo-bar {
-    display: flex; gap: 12px; margin-bottom: 20px; width: 100%; max-height: 180px; opacity: 1; overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, margin-bottom 0.4s ease;
+    display: flex; gap: 12px; margin-bottom: 16px; width: 100%; max-height: 160px; opacity: 1; overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin-bottom 0.3s ease;
 }
 
-/* 滾動收起狀態 */
-.glass-header.collapsed { padding-top: 15px; padding-bottom: 12px; }
+/* 滚动收起状态 */
+.glass-header.collapsed { padding-top: 14px; padding-bottom: 10px; }
 .glass-header.collapsed .header-photo-bar { max-height: 0; opacity: 0; margin-bottom: 0; }
-.glass-header.collapsed .header-lead { display: none; } /* 滾動時自動隱藏導語 */
 
 .header-photo-item { flex: 1; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.12); background: rgba(255,255,255,0.2); transition: transform 0.3s ease; }
 .header-photo-item:hover { transform: translateY(-3px); }
@@ -112,12 +105,96 @@ body {
 .category-nav { display: flex; gap: 15px; }
 .nav-item {
     background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.6);
-    color: #ffffff; padding: 10px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none;
+    color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none;
     transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); backdrop-filter: blur(10px);
 }
 .nav-item:hover, .nav-item.active { background: #ffffff; color: #0f172a; border-color: #ffffff; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
 
-.main-container { display: flex; height: calc(100vh - 150px); position: relative; overflow: hidden; }
+/* 全屏 Lead 導語區塊 (Hero Section) */
+.hero-lead-section {
+    min-height: 100vh;
+    padding-top: 260px; /* 预留给固定 Header 的空间 */
+    padding-bottom: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    
+    /* 采用与文章一致的彩虹流体底板动画 */
+    background: linear-gradient(270deg, rgba(224, 122, 122, 0.35), rgba(229, 152, 94, 0.35), rgba(220, 194, 101, 0.35), rgba(118, 176, 138, 0.35), rgba(112, 151, 226, 0.40), rgba(166, 122, 216, 0.40), rgba(224, 122, 122, 0.35));
+    background-size: 400% 400%;
+    animation: fluidWaterRainbow 12s ease infinite;
+}
+
+.hero-lead-card {
+    max-width: 900px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    padding: 55px 65px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* 自然工整的手写风格字体设置 */
+.hero-lead-text {
+    font-family: 'Caveat', cursive, Georgia, serif;
+    font-size: 1.85rem;
+    line-height: 1.6;
+    color: #1e293b;
+    margin-bottom: 35px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 下拉箭頭按鈕及跳動動畫 */
+.scroll-down-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--pride-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: bounceArrow 2s infinite;
+}
+
+.scroll-down-btn:hover {
+    background: var(--pride-purple);
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(166, 122, 216, 0.4);
+}
+
+@keyframes bounceArrow {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.main-container { 
+    display: flex; 
+    height: calc(100vh - 120px); 
+    position: relative; 
+    overflow: hidden; 
+    scroll-margin-top: 100px; /* 滚动到锚点时的顶部偏移 */
+}
+
 .ambient-aurora {
     position: absolute; top: 0; left: 0; width: 46%; height: 100%; z-index: 0; pointer-events: none;
     background: radial-gradient(circle at 20% 30%, rgba(224, 122, 122, 0.22) 0%, transparent 45%),
@@ -189,6 +266,7 @@ body {
 .media-section {
     background: linear-gradient(135deg, rgba(224, 122, 122, 0.08) 0%, rgba(112, 151, 226, 0.08) 50%, rgba(166, 122, 216, 0.08) 100%);
     border-top: 1px solid rgba(0,0,0,0.05); padding: 50px 25px;
+    scroll-margin-top: 100px;
 }
 .media-header { text-align: center; margin-bottom: 30px; }
 .media-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #0f172a; display: flex; align-items: center; justify-content: center; gap: 8px; }
@@ -230,6 +308,7 @@ body {
     background: linear-gradient(270deg, rgba(224, 122, 122, 0.35), rgba(229, 152, 94, 0.35), rgba(220, 194, 101, 0.35), rgba(118, 176, 138, 0.35), rgba(112, 151, 226, 0.40), rgba(166, 122, 216, 0.40), rgba(224, 122, 122, 0.35));
     background-size: 400% 400%; animation: fluidWaterRainbow 12s ease infinite;
     color: #1e293b; padding: 80px 20px 120px 20px; display: flex; flex-direction: column; align-items: center; overflow: hidden;
+    scroll-margin-top: 100px;
 }
 @keyframes fluidWaterRainbow {
     0% { background-position: 0% 50%; }
@@ -276,6 +355,9 @@ body {
     .video-container { padding-bottom: 56.25%; }
     .editorial-card { padding: 30px 20px; }
     .dual-photo-container { gap: 8px; }
+    .hero-lead-section { padding-top: 220px; }
+    .hero-lead-card { padding: 35px 25px; }
+    .hero-lead-text { font-size: 1.45rem; line-height: 1.5; }
 }
 
 /* Credit Section CSS */

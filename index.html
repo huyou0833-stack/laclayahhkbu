@@ -7,10 +7,10 @@
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Google Fonts -->
+    <!-- Google Fonts (新增 Caveat 手写工整字体) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom Stylesheet -->
@@ -37,7 +37,7 @@
         </div>
     </aside>
 
-    <!-- 頂部標題與 16:9 照片橫欄 -->
+    <!-- 頂部固定導航欄 (Fixed 模式，彻底防抖) -->
     <header class="glass-header" id="mainHeader">
         <h1 id="txt-main-title">The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing</h1>
         <p id="txt-sub-title">Linking Downtown Landmarks, Vanished Architecture, and the Living History of Pride</p>
@@ -49,11 +49,6 @@
             <div class="header-photo-item"><img src="images/header-4.png" alt="Header Landmark 4"></div>
             <div class="header-photo-item"><img src="images/header-5.png" alt="Header Landmark 5"></div>
         </div>
-
-        <!-- 導語 Lead Section -->
-        <p class="header-lead" id="txt-header-lead">
-            Los Angeles holds a rich LGBTQ+ history, yet many of its foundational spaces have vanished or remain unmarked in today's urban landscape. Explore this interactive map and timeline to trace historical landmarks, uncover lost architectural heritage across Downtown LA, and connect past struggles to today's living history.
-        </p>
 
         <nav class="category-nav">
             <a href="#interactive-map-section" class="nav-item active" id="nav-timeline">
@@ -67,6 +62,18 @@
             </a>
         </nav>
     </header>
+
+    <!-- 全屏獨立 Lead 導語區塊（彩虹流體底板 + 手寫感大卡片 + 動態指示箭頭） -->
+    <section class="hero-lead-section" id="hero-lead-section">
+        <div class="hero-lead-card">
+            <p class="hero-lead-text" id="txt-header-lead">
+                Los Angeles holds a rich LGBTQ+ history, yet many of its foundational spaces have vanished or remain unmarked in today's urban landscape. Explore this interactive map and timeline to trace historical landmarks, uncover lost architectural heritage across Downtown LA, and connect past struggles to today's living history.
+            </p>
+            <a href="#interactive-map-section" class="scroll-down-btn" id="scrollDownBtn" aria-label="Scroll to Map">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
 
     <!-- 區塊 1: 互動地圖與時間線 -->
     <section id="interactive-map-section" class="main-container">

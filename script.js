@@ -264,25 +264,25 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 const paradePolyline = L.polyline(paradeRouteCoords, { color: '#a67ad8', weight: 6, opacity: 0.9, dashArray: '8, 8' }).addTo(map);
 const markers = {};
 
-// 頁面滾動監聽： Header 折疊 + 3個目錄按鈕跟隨高亮 (Scrollspy)
+// 彻底平滑的防弹闪滚动监听
 window.addEventListener('scroll', () => {
     const mainHeader = document.getElementById('mainHeader');
     if (mainHeader) {
-        if (window.scrollY > 30) {
+        if (window.scrollY > 80) {
             mainHeader.classList.add('collapsed');
         } else {
             mainHeader.classList.remove('collapsed');
         }
     }
 
-    // Scrollspy 邏輯：判定目前滾動到的區塊并高亮對應按鈕
+    // Scrollspy 目录栏高亮联动
     const sections = [
         { id: 'interactive-map-section', navId: 'nav-timeline' },
         { id: 'video-section', navId: 'nav-video' },
         { id: 'editorial-section', navId: 'nav-stories' }
     ];
 
-    const scrollPosition = window.scrollY + 220; // 偏移量以匹配 sticky header 高度
+    const scrollPosition = window.scrollY + 200;
 
     sections.forEach(sec => {
         const el = document.getElementById(sec.id);
