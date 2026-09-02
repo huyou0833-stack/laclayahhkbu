@@ -264,6 +264,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 const paradePolyline = L.polyline(paradeRouteCoords, { color: '#a67ad8', weight: 6, opacity: 0.9, dashArray: '8, 8' }).addTo(map);
 const markers = {};
 
+// 頁面滾動監聽： Header 折疊 + 3個目錄按鈕跟隨高亮 (Scrollspy)
 window.addEventListener('scroll', () => {
     const mainHeader = document.getElementById('mainHeader');
     if (mainHeader) {
@@ -273,6 +274,28 @@ window.addEventListener('scroll', () => {
             mainHeader.classList.remove('collapsed');
         }
     }
+
+    // Scrollspy 邏輯：判定目前滾動到的區塊并高亮對應按鈕
+    const sections = [
+        { id: 'interactive-map-section', navId: 'nav-timeline' },
+        { id: 'video-section', navId: 'nav-video' },
+        { id: 'editorial-section', navId: 'nav-stories' }
+    ];
+
+    const scrollPosition = window.scrollY + 220; // 偏移量以匹配 sticky header 高度
+
+    sections.forEach(sec => {
+        const el = document.getElementById(sec.id);
+        const navEl = document.getElementById(sec.navId);
+        if (el && navEl) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+            if (scrollPosition >= top && scrollPosition < top + height) {
+                document.querySelectorAll('.category-nav .nav-item').forEach(n => n.classList.remove('active'));
+                navEl.classList.add('active');
+            }
+        }
+    });
 });
 
 const sidebar = document.getElementById('controlSidebar');
@@ -294,6 +317,9 @@ function setLanguage(lang) {
 
         document.getElementById('txt-main-title').textContent = "The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing";
         document.getElementById('txt-sub-title').textContent = "串連市中心地標、消逝的建築與自豪的活體歷史";
+        
+        document.getElementById('txt-header-lead').textContent = "洛杉磯承載著豐富的 LGBTQ+ 歷史，然而許多奠基性的歷史空間如今已悄然消逝或未留標記。通過這張互動地圖與時間線，你可以穿梭時空，探索洛杉磯市中心消逝的建築遺跡，感受歷史足跡如何連結至今日的自豪游行。";
+
         document.getElementById('txt-nav-timeline').textContent = "互動地圖與時間線";
         document.getElementById('txt-nav-video').textContent = "2026 游行與影音";
         document.getElementById('txt-nav-stories').textContent = "專題報道";
@@ -319,6 +345,9 @@ function setLanguage(lang) {
 
         document.getElementById('txt-main-title').textContent = "The Invisible Gay City: Los Angeles LGBTQ History Is Disappearing";
         document.getElementById('txt-sub-title').textContent = "Linking Downtown Landmarks, Vanished Architecture, and the Living History of Pride";
+        
+        document.getElementById('txt-header-lead').textContent = "Los Angeles holds a rich LGBTQ+ history, yet many of its foundational spaces have vanished or remain unmarked in today's urban landscape. Explore this interactive map and timeline to trace historical landmarks, uncover lost architectural heritage across Downtown LA, and connect past struggles to today's living history.";
+
         document.getElementById('txt-nav-timeline').textContent = "Interactive Map & Timeline";
         document.getElementById('txt-nav-video').textContent = "2026 Parade & Media";
         document.getElementById('txt-nav-stories').textContent = "Featured Stories";

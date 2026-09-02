@@ -82,12 +82,28 @@ body {
 .glass-header h1 { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #ffffff; letter-spacing: 0.5px; margin-bottom: 6px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 .glass-header p { color: rgba(255, 255, 255, 0.95); font-size: 0.9rem; font-weight: 400; margin-bottom: 16px; }
 
+/* 導語 Lead 樣式 */
+.header-lead {
+    color: rgba(255, 255, 255, 0.96) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.6;
+    margin-bottom: 18px !important;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 12px 18px;
+    border-radius: 8px;
+    border-left: 4px solid #ffffff;
+    backdrop-filter: blur(8px);
+}
+
 .header-photo-bar {
     display: flex; gap: 12px; margin-bottom: 20px; width: 100%; max-height: 180px; opacity: 1; overflow: hidden;
     transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, margin-bottom 0.4s ease;
 }
+
+/* 滾動收起狀態 */
 .glass-header.collapsed { padding-top: 15px; padding-bottom: 12px; }
 .glass-header.collapsed .header-photo-bar { max-height: 0; opacity: 0; margin-bottom: 0; }
+.glass-header.collapsed .header-lead { display: none; } /* 滾動時自動隱藏導語 */
 
 .header-photo-item { flex: 1; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.12); background: rgba(255,255,255,0.2); transition: transform 0.3s ease; }
 .header-photo-item:hover { transform: translateY(-3px); }
