@@ -255,11 +255,26 @@ const paradeRouteCoords = [[34.0980, -118.3380], [34.1016, -118.3380], [34.1016,
 const map = L.map('map', { center: [34.053, -118.248], zoom: 13, zoomControl: false });
 L.control.zoom({ position: 'topright' }).addTo(map);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
+// 免費地圖圖磚（無需 API Key）：優先使用 OpenStreetMap 官方圖磚，載入失敗時自動切換備援
+const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19
 }).addTo(map);
+
+const osmFallbackLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, tiles by <a href="https://www.openstreetmap.fr/">OpenStreetMap France</a>',
+    subdomains: 'abc',
+    maxZoom: 19
+});
+
+let tileErrorCount = 0;
+osmLayer.on('tileerror', () => {
+    tileErrorCount++;
+    if (tileErrorCount >= 5 && map.hasLayer(osmLayer)) {
+        map.removeLayer(osmLayer);
+        osmFallbackLayer.addTo(map);
+    }
+});
 
 const paradePolyline = L.polyline(paradeRouteCoords, { color: '#a67ad8', weight: 6, opacity: 0.9, dashArray: '8, 8' }).addTo(map);
 const markers = {};
